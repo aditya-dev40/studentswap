@@ -18,7 +18,7 @@
 
         <!-- CSS -->
         
-        <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+        <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -84,13 +84,19 @@
                     </a>
                     
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
                         <li>
                             
                             <a class="dropdown-item" href="{% url 'store' %}"> All </a>
                         
                         </li>
                     
+                        {% for category in all_categories %}
+                            <li>
+                                
+                                <a class="dropdown-item" href=""> {{ category.name | capfirst }} </a>
+                            
+                            </li>
+                        {% endfor %}
         
                     
                     </ul>
@@ -126,14 +132,19 @@
 
                 <li class="nav-item">
 
-                    <a type="button" role="button" href="/" class="btn btn-outline-secondary"> 
-                    
-
-
-                        <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
-
-
+                    <a href="/"
+                    class="btn"
+                    style="
+                        color: #d4af37;
+                        border: 1px solid #d4af37;
+                        background-color: transparent;
+                    "
+                    onmouseover="this.style.backgroundColor='#d4af37'; this.style.color='#000';"
+                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d4af37';"
+                    >
+                        <i class="fa fa-shopping-cart"></i>
                     </a>
+
 
                 </li>
 
