@@ -1,2 +1,2 @@
 # StudentSwap
-A multi-vendor e-commerce platform built with Django and React, designed as a student marketplace where users can sell second-hand items such as clothes, mobiles, and other goods.
+A Django-based student marketplace for buying, selling, and exchanging second-hand items. Implements core cart and product functionality, with planned support for item exchange and price adjustment.
