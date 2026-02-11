@@ -101,62 +101,67 @@
     <br />
   </main>
 
+  
   <script>
-    // Delete button
 
-    $(document).on("click", ".delete-button", function (e) {
-      e.preventDefault();
+  // Delete button
 
-      $.ajax({
-        type: "POST",
-        url: '{% url "cart-delete" %}',
-        data: {
-          product_id: $(this).data("index"),
-          csrfmiddlewaretoken: "{{csrf_token}}",
-          action: "post",
-        },
+  document.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("delete-button")) return;
 
-        success: function (json) {
-          location.reload();
+    e.preventDefault();
 
-          document.getElementById("cart-qty").textContent = json.qty;
+    const productId = e.target.dataset.index;
 
-          document.getElementById("total").textContent = json.total;
-        },
+    const data = new FormData();
+    data.append("product_id", productId);
+    data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+    data.append("action", "post");
 
-        error: function (xhr, errmsg, err) {},
+    fetch("{% url 'cart-delete' %}", {
+      method: "POST",
+      body: data,
+    })
+      .then(response => response.json())
+      .then(json => {
+        document.getElementById("cart-qty").textContent = json.qty;
+        document.getElementById("total").textContent = json.total;
+        location.reload();
       });
-    });
-  </script>
-
-  <script>
-    // update button
+  });
+</script>
 
 
-    $(document).on("click", ".update-button", function (e) {
-      e.preventDefault();
+<script>
+  document.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("update-button")) return;
 
-      var theproductid = $(this).data("index");
+    e.preventDefault();
 
-      $.ajax({
-        type: "POST",
-        url: '{% url "cart-update" %}',
-        data: {
-          product_id: theproductid,
-          product_quantity: $(
-            "#select" + theproductid + " option:selected",
-          ).val(),
-          csrfmiddlewaretoken: "{{ csrf_token }}",
-          action: "post",
-        },
-        success: function (json) {
-          location.reload();
-          document.getElementById("cart-qty").textContent = json.qty;
-          document.getElementById("total").textContent = json.total;
-        },
+    const productId = e.target.dataset.index;
+    const qty = document.querySelector(
+      "#select" + productId + " option:checked"
+    ).value;
+
+    const data = new FormData();
+    data.append("product_id", productId);
+    data.append("product_quantity", qty);
+    data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+    data.append("action", "post");
+
+    fetch("{% url 'cart-update' %}", {
+      method: "POST",
+      body: data,
+    })
+      .then(response => response.json())
+      .then(json => {
+        document.getElementById("cart-qty").textContent = json.qty;
+        document.getElementById("total").textContent = json.total;
+        location.reload();
       });
-    });
-  </script>
+  });
+</script>
+
 
 
 {% endblock %}

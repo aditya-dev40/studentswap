@@ -86,7 +86,7 @@
                     
                     </a>
                     
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul style="background-color: #F5F5F5;" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
                             
                             <a class="dropdown-item" href="{% url 'store' %}"> All </a>
@@ -119,7 +119,7 @@
 
                     <li class="nav-item">
                 
-                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'dashboard' %}"> dashboard </a>
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'dashboard' %}"> <i class="fa-solid fa-house"></i> &nbsp; dashboard </a>
 
                     </li>
 
@@ -127,7 +127,7 @@
 
                     <li class="nav-item">
                 
-                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> Register </a>
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> <i class="fa-solid fa-user-plus"></i> &nbsp; Register </a>
 
                     </li>
 
@@ -137,7 +137,7 @@
                 
                     <li class="nav-item">
                 
-                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'user-logout' %}"> Logout </a>
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'user-logout' %}"> <i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout </a>
 
                     </li>
 
@@ -145,7 +145,7 @@
               
                     <li class="nav-item">
                 
-                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'my-login' %}"> Login </a>
+                        <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'my-login' %}"> <i class="fa-solid fa-user"></i> &nbsp; Login </a>
 
                     </li>
 
@@ -166,6 +166,8 @@
                     "
                     onmouseover="this.style.backgroundColor='#d4af37'; this.style.color='#000';"
                     onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d4af37';"
+                    onfocus="this.style.backgroundColor='#d4af37'; this.style.color='#000';"
+                    onblur="this.style.backgroundColor='transparent'; this.style.color='#d4af37';"
                     >
                         <i class="fa fa-shopping-cart"></i>
 
@@ -205,6 +207,27 @@
 
     </nav>
 
+    {% for message in messages %}
+
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="message-timer alert alert-success text-center h6" role="alert">
+                    <i class="fa-solid fa-right-from-bracket"></i>  {{message}}
+            </div>
+
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="message-timer alert alert-danger text-center h6" role="alert">
+                <i class="fa-solid fa-triangle-exclamation"></i> {{message}}
+            </div>
+
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="message-timer alert alert-info text-center h6" role="alert">
+                <i class="fa-solid fa-circle-info"></i> {{message}}
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
 
     <body>
 
@@ -224,6 +247,8 @@
 
 
     </body>
+
+    <script src="{% static 'js/app.js' %}"></script>
 
 
 </html>

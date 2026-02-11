@@ -16,7 +16,7 @@
 
     <body>
         
-        <br> <br> <br> <br> <br> 
+        <br> <br> <br> 
 
 
         <div class="container bg-white shadow-md p-5 form-layout">
@@ -43,6 +43,8 @@
                 <button type="submit" class="btn btn-primary w-100 p-2 text-white"> <i class="fa-solid fa-key"></i> &nbsp; Login</button>
                 
                 <br> <br>
+
+                {{ form.non_field_errors }}
                 
                 <div class="text-center">
 
@@ -51,10 +53,10 @@
                 </div>
 
                 <br>
-                
+
                 <div class="text-center">
 
-                    <a href="{% url 'my-login' %}"> Forgotten your password? </a>
+                    <a href="{% url 'reset_password' %}"> Forgotten your password? </a>
 
                 </div>
 
