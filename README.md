@@ -1,8 +1,6 @@
 # StudentSwap
 
-A Django-based student marketplace for buying, selling, and exchanging second-hand items.
-
-StudentSwap allows users to list products, manage a shopping cart, and securely register with email verification. The project demonstrates full-stack fundamentals including authentication, cart logic, environment configuration, and modern frontend–backend communication.
+A Django-based student marketplace for buying, selling, and exchanging second-hand items. Implements core cart and product functionality, with planned support for item exchange and price adjustment.
 
 ---
 
