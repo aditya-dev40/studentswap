@@ -1,1 +1,40 @@
-<h1> Payment failed </h1>
+{% include "store/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+    <style>
+
+        body{
+            background-color: gray;
+        }
+
+    </style>
+
+
+    <body>
+        
+        <br> <br> <br> <br> <br> <br> <br> <br> <br>
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+
+            <div class="text-center">
+
+                <i class="text-danger fa-solid fa-credit-card fa-2x"></i>
+
+                <br> <br>
+
+                <h5> <strong> Payment failed! </strong> </h5>
+
+                <p> Your order was not processed. </p>
+
+            </div>
+
+        </div>
+
+    </body>
+
+
+{% endblock %}

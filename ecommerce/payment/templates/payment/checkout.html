@@ -123,13 +123,16 @@
 
             </form>
 
-
         </div>
+        
+        <br>
 
 
     </body>
 
 <script>
+
+    var total_price = '{{total_usd}}'
 
         
  	const paypalButtonsComponent = paypal.Buttons({
@@ -146,6 +149,8 @@
         onInit: function(data, actions){
 
             actions.disable();
+
+            // Complete order - NO SHIPPING
 
             document.querySelectorAll('.validate').forEach(item => {
                 item.addEventListener('keyup', event => {
@@ -187,6 +192,41 @@
                 });
 
             });
+
+            // Complete order - NO SHIPPING
+
+            var order_verified = 'Yes';
+
+            function checkInputs(){
+
+                $(':input[required]').each(function(){
+
+                    if($(this).val() == ''){
+                        // The required fields are empty
+
+                        return order_verified = 'No';
+
+                    }
+
+                });
+
+                return order_verified;
+            }
+
+            var isOrderVerified = checkInputs()
+
+            if(isOrderVerified === 'Yes')
+            {
+                actions.enable();
+
+
+            }
+
+            else
+            {
+                actions.disable();
+            }
+
         },
 
         // set up the transaction
@@ -201,7 +241,7 @@
                     {
                         amount: {
                             currency_code: "USD", 
-                            value: "{{ total_usd }}"
+                            value: total_price
                         }
                     }
                 ]
@@ -211,16 +251,51 @@
         },
 
         // finalize the transaction
+
         onApprove: (data, actions) => {
+
             const captureOrderHandler = (details) => {
-                const payerName = details.payer.name.given_name;
+
                 console.log('Transaction completed');
 
+                const formData = new FormData();
 
-            };
+                formData.append("name", document.getElementById("name").value);
+                formData.append("email", document.getElementById("email").value);
+                formData.append("address1", document.getElementById("address1").value);
+                formData.append("address2", document.getElementById("address2").value);
+                formData.append("city", document.getElementById("city").value);
+                formData.append("state", document.getElementById("state").value);
+                formData.append("zipcode", document.getElementById("zipcode").value);
+                formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+                formData.append("action", "post");
 
-            return actions.order.capture().then(captureOrderHandler);
-        },
+                fetch("{% url 'complete-order' %}", {
+                        method: "POST",
+                        body: formData,
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Server error");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.replace("{% url 'payment-success' %}");
+                        } else {
+                            window.location.replace("{% url 'payment-failed' %}");
+                        }
+                    })
+                    .catch(error => {
+                        window.location.replace("{% url 'payment-failed' %}");
+                    });
+
+
+        };
+
+        return actions.order.capture().then(captureOrderHandler);
+    },
 
         // handle unrecoverable errors
         onError: (err) => {
@@ -236,50 +311,7 @@
     });
 
 
-
-
-
-
-    
-
-
-    
-    {% comment %} 
-
-        // complete-order
-
-        document.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const formData = new FormData();
-
-        formData.append("name", document.getElementById("name").value);
-        formData.append("email", document.getElementById("email").value);
-        formData.append("address1", document.getElementById("address1").value);
-        formData.append("address2", document.getElementById("address2").value);
-        formData.append("city", document.getElementById("city").value);
-        formData.append("state", document.getElementById("state").value);
-        formData.append("zipcode", document.getElementById("zipcode").value);
-        formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
-        formData.append("action", "post");
-
-        fetch("{% url 'complete-order' %}", {
-            method: "POST",
-            body: formdata,
-        })
-        .then(response => response.json())
-        .then(data => {
-            
-            console.log(data)
-
-            });
-        });
-
-    {% endcomment %}
-
 </script> 
 
-   
 
 {% endblock %}

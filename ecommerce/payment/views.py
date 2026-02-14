@@ -107,7 +107,7 @@ def complete_order(request):
             for item in cart:
 
                 OrderItem.objects.create(order_id=order_id, product=item['product'], quantity=item['qty'],
-                                            prict=item['price'], user=request.user )
+                                            price=item['price'], user=request.user )
                 
         else:
             order = Order.objects.create(full_name = name, email = email, shipping_address = shipping_address,
